@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit
  */
 object Net {
     private val retrofit: Retrofit
+    //Retrofit初始化时需要的基础url，然后使用@GET注解拼接具体的请求url
     private val base_url: String = "http://baobab.kaiyanapp.com/api/"
     private val DEFAULT_TIMEOUT = 5L
     private val okHttpClient: OkHttpClient
@@ -29,7 +30,7 @@ object Net {
         retrofit = Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//将Call转换成RxJavaObservable对象
                 .baseUrl(base_url)
                 .build()
     }
