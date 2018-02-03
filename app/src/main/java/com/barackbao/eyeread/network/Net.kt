@@ -35,5 +35,6 @@ object Net {
                 .build()
     }
 
+    val service: Api by lazy { retrofit.create(Api::class.java) }
 
 }
