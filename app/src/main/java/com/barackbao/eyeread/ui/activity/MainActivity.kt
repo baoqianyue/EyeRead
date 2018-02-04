@@ -1,7 +1,8 @@
-     package com.barackbao.eyeread
+package com.barackbao.eyeread.ui.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.barackbao.eyeread.R
 
 class MainActivity : AppCompatActivity() {
 
