@@ -7,7 +7,20 @@
         android:id="@+id/content_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/home_toolbar" />
+        android:layout_above="@+id/home_toolbar" >
+
+        <RadioButton
+            android:id="@+id/hot_rb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/hot_rb_selector"
+            android:gravity="center"
+            android:text="热门"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp" />
+    </FrameLayout>
 
 
     <RelativeLayout
@@ -72,18 +85,6 @@
             android:drawableTop="@drawable/category_rb_selector"
             android:gravity="center"
             android:text="分类"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp" />
-
-        <RadioButton
-            android:id="@+id/hot_rb"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/hot_rb_selector"
-            android:gravity="center"
-            android:text="热门"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
 
