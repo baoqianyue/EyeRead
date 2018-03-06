@@ -1,9 +1,13 @@
 package com.barackbao.eyeread.ui.adapter
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.barackbao.eyeread.mvp.model.bean.Category
+import com.barackbao.eyeread.ui.customviews.CategoryItemView
+import com.barackbao.eyeread.ui.customviews.EndListView
+import kotlinx.android.synthetic.main.layout_list_end.view.*
 
 /**
  * Created by 22876 on 2018/3/5.
@@ -12,6 +16,8 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     private val TYPE_SIMPLE = 1
     private val TYPE_END = 2
+    var onClick: ((Category) -> Unit)? = {}
+
 
     val data by lazy { ArrayList<Category>() }
 
@@ -33,16 +39,38 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         var itemView: View? = null
-        when(viewType){
+        when (viewType) {
             TYPE_END -> {
+                itemView = EndListView(parent?.context)
+                itemView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
+                        RecyclerView.LayoutParams.WRAP_CONTENT)
+                itemView.end_list_tv.setTextColor(Color.BLACK)
+            }
 
+            TYPE_SIMPLE -> {
+                itemView = CategoryItemView(parent?.context)
+            }
+        }
+        return CategoryAdapter.ViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+        val itemViewType = getItemViewType(position)
+        when (itemViewType) {
+            TYPE_SIMPLE -> {
+                (holder?.itemView as CategoryItemView).setData(data[position])
+                //设置点击事件
+                holder.itemView.setOnClickListener()
             }
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun setData(data: ArrayList<Category>) {
+        this.data.addAll(data)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
+
+
 }

@@ -12,7 +12,7 @@ import com.barackbao.eyeread.R
  * Created by 22876 on 2018/3/5.
  */
 class PercentTextView : AppCompatTextView {
-    private var mTextSizePrecent = 1f
+    private var mTextSizePercent = 1f
 
     companion object {
         //默认屏幕高度
@@ -29,28 +29,41 @@ class PercentTextView : AppCompatTextView {
 
     constructor(context: Context) : super(context) {
         setDefaultPercent(context)
-        textSize = textSize
+        this.textSize = textSize
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         getAttrs(context, attrs)
         setDefaultPercent(context)
-        textSize = textSize
+        this.textSize = textSize
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         getAttrs(context, attrs)
         setDefaultPercent(context)
-        textSize = textSize
+        this.textSize = textSize
+    }
+
+    var textSizePercent: Float
+        get() = mTextSizePercent
+        set(value) {
+            mTextSizePercent = value
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, value)
+        }
+
+    fun setTextSizePercent(unit: Int, textSizePercent: Float) {
+        mTextSizePercent = textSizePercent
+        setTextSize(unit, textSize)
     }
 
     override fun setTextSize(unit: Int, size: Float) {
-        var textSize = size
-        textSize = (textSize * mTextSizePrecent).toInt().toFloat()
-        super.setTextSize(unit, textSize)
+        var varSize = size
+        varSize = (varSize * mTextSizePercent).toInt().toFloat()
+        super.setTextSize(unit, varSize)
     }
 
     override fun setTextSize(size: Float) {
+        //使用px像素计算单位设置字体size
         setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
     }
 
@@ -68,7 +81,8 @@ class PercentTextView : AppCompatTextView {
     }
 
     private fun setDefaultPercent(context: Context) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val screenHeight = getScreenHeight(context).toFloat()
+        mTextSizePercent = screenHeight / baseScreenHeight
     }
 
 }
