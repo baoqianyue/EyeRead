@@ -10,7 +10,7 @@ import com.barackbao.eyeread.mvp.model.bean.Item
  * 主页契约类
  */
 
-class HomeContract {
+interface HomeContract {
 
     interface CHomeView : BaseView<CHomePresenter> {
         fun setFirstData(homeBean: HomeBean)
