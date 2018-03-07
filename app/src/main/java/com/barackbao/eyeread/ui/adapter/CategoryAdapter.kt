@@ -60,7 +60,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
             TYPE_SIMPLE -> {
                 (holder?.itemView as CategoryItemView).setData(data[position])
                 //设置点击事件
-                holder.itemView.setOnClickListener()
+                holder.itemView.setOnClickListener { onClick?.invoke(data[position]) }
             }
         }
     }

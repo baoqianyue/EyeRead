@@ -47,13 +47,12 @@ interface Api {
      * 获取分类
      */
     @GET("v4/categories")
-    fun getCategory(): Observable<Category>
+    fun getCategory(): Observable<ArrayList<Category>>
 
 
     /**
      * 获取分类下的所有视频
      */
-
     @GET("v4/categories/videoList")
     fun getCategoryItemList(@Query("id") id: Long): Observable<Issue>
 

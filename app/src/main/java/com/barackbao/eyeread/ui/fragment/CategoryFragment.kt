@@ -1,7 +1,11 @@
 package com.barackbao.eyeread.ui.fragment
 
+import android.graphics.Rect
+import android.hardware.display.DisplayManager
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +13,13 @@ import android.widget.Toast
 import com.barackbao.eyeread.R
 import com.barackbao.eyeread.mvp.contract.CategoryContract
 import com.barackbao.eyeread.mvp.model.bean.Category
-import com.barackbao.eyeread.showToast
 import com.barackbao.eyeread.ui.adapter.CategoryAdapter
 import com.barackbao.eyeread.ui.base.BaseFragment
 import com.barackbao.eyeread.ui.base.tabsId
+import com.barackbao.eyeread.utils.ScreenUtil
+import com.barackbao.eyeread.utils.showToast
+import com.barackbao.eyeread.utils.startActivityWithData
+import kotlinx.android.synthetic.main.fragment_category.*
 
 /**
  * Created by 22876 on 2018/3/5.
@@ -27,13 +34,32 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val gridLayoutManager = GridLayoutManager(context,2)
-        gridLayoutManager.spanSizeLookup = object :GridLayoutManager.SpanSizeLookup(){
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                if (gridLayoutManager.itemCount - 1 == position)
+                if (gridLayoutManager.itemCount - 1 == position) {
+                    return 2
+                }
+                return 1
             }
-
         }
+
+        category_rv.layoutManager = gridLayoutManager
+        category_rv.overScrollMode = RecyclerView.OVER_SCROLL_NEVER //消除滑动到边缘出现阴影
+        category_rv.adapter = adapter
+        //设置每个item的间隔值
+        category_rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView, state: RecyclerView.State?) {
+                val position = parent.getChildAdapterPosition(view)
+                //dip转换为像素单位
+                val itemMargin = ScreenUtil.dip2px(2f, context)!!
+
+                outRect?.set(if (position % 2 == 0) 0 else itemMargin, itemMargin,
+                        if (position % 2 == 0) itemMargin else 0, itemMargin)
+            }
+        })
+
+        adapter.onClick = { category -> activity.startActivityWithData<>(category) }
 
     }
 
@@ -46,7 +72,7 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
     }
 
     override fun onError() {
-        showToast("网络连接失败...")
+        showToast("网络连接错误...")
     }
 
 }
