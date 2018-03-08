@@ -7,46 +7,39 @@
         android:id="@+id/content_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/home_toolbar" >
+        android:layout_above="@+id/root_rg" >
 
-        <RadioButton
-            android:id="@+id/hot_rb"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/hot_rb_selector"
-            android:gravity="center"
-            android:text="热门"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp" />
+
+
+        <RelativeLayout
+            android:id="@+id/home_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_above="@+id/root_rg">
+
+            <TextView
+                android:id="@+id/toolbar_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/search_img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_action_search_white" />
+        </RelativeLayout>
+
+
     </FrameLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/home_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_above="@+id/root_rg">
-
-        <TextView
-            android:id="@+id/toolbar_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-
-        <ImageView
-            android:id="@+id/search_img"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_action_search_white" />
-    </RelativeLayout>
 
 
     <View
@@ -85,6 +78,19 @@
             android:drawableTop="@drawable/category_rb_selector"
             android:gravity="center"
             android:text="分类"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp" />
+
+
+        <RadioButton
+            android:id="@+id/hot_rb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/hot_rb_selector"
+            android:gravity="center"
+            android:text="热门"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
 

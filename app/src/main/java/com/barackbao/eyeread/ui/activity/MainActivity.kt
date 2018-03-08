@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
         home_rb.isChecked = true
         chooseFragment(R.id.home_rb)
         //设置radioGroup切换监听
-        root_rg.setOnCheckedChangeListener { radioGroup, radioId -> chooseFragment(radioId) }
+        root_rg.setOnCheckedChangeListener { _, radioId -> chooseFragment(radioId) }
     }
 
     private fun chooseFragment(radioId: Int) {
@@ -54,7 +54,7 @@ class MainActivity : BaseActivity() {
                     beginTransaction.show(it)
                 }
             } else {
-                curFragment?.let{
+                curFragment?.let {
                     beginTransaction.hide(it)
                 }
             }

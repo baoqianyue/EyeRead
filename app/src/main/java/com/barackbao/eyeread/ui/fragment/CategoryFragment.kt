@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.barackbao.eyeread.R
 import com.barackbao.eyeread.mvp.contract.CategoryContract
 import com.barackbao.eyeread.mvp.model.bean.Category
+import com.barackbao.eyeread.mvp.presenter.CategoryPersenter
 import com.barackbao.eyeread.ui.adapter.CategoryAdapter
 import com.barackbao.eyeread.ui.base.BaseFragment
 import com.barackbao.eyeread.ui.base.tabsId
@@ -27,6 +28,12 @@ import kotlinx.android.synthetic.main.fragment_category.*
 class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView {
 
     private val adapter by lazy { CategoryAdapter() }
+
+    val categoryPersenter: CategoryPersenter
+
+    init {
+        categoryPersenter = CategoryPersenter(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_category, null)
@@ -59,7 +66,7 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
             }
         })
 
-        adapter.onClick = { category -> activity.startActivityWithData<>(category) }
+        categoryPersenter.getData()
 
     }
 

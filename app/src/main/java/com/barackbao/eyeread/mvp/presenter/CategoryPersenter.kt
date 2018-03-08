@@ -22,11 +22,11 @@ class CategoryPersenter(view: CategoryContract.CView) : CategoryContract.CPresen
      */
     override fun getData() {
         categoryModel.loadData()
-                .subscribe({ categoryView.showCategory(it) },
-                        {
-                            it.printStackTrace()
-                            categoryView.onError()
-                        })
+                .subscribe({ categoryView.showCategory(it) }, {
+                    it.printStackTrace()
+                    categoryView.onError()
+                })
+
     }
 
 }
