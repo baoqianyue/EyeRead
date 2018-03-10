@@ -9,22 +9,22 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY" />
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/home_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
-        <ImageView
+       &lt;!&ndash; <ImageView
             android:id="@+id/home_refresh_im"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_action_home_refresh" />
-    </RelativeLayout>
+            android:src="@drawable/ic_action_home_refresh" />&ndash;&gt;
+    </RelativeLayout>-->
 
     <TextView
         android:id="@+id/home_banner_name_tv"

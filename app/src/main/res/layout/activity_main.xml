@@ -12,7 +12,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/home_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_above="@+id/root_rg">
@@ -28,12 +28,12 @@
 
 
             <ImageView
-                android:id="@+id/search_img"
+                android:id="@+id/refresh_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_action_search_white" />
+                android:src="@drawable/ic_action_home_refresh" />
         </RelativeLayout>
 
 

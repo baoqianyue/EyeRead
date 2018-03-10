@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.Image
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -16,6 +17,7 @@ import com.barackbao.eyeread.R
  * Created by 22876 on 2018/3/5.
  */
 class PullRefreshRecyclerView : RecyclerView {
+
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
@@ -27,10 +29,10 @@ class PullRefreshRecyclerView : RecyclerView {
     var constY = -1//发生down事件时记录首次手指y坐标，缩放loading时会用到
     var canRefresh = false //是否能刷新
     var isFirstMove = true
+    var willRefresh = false //松手后就可刷新
+    var homeHeaderView: HomeHeaderView? = null
 
-    var mLastMotionX = 0f
     var mLastMotionY = 0f
-    var deltaX = 0f
     var deltaY = 0f
 
     //具体的loadingImageView
@@ -59,19 +61,25 @@ class PullRefreshRecyclerView : RecyclerView {
         viewGroup.addView(loadingView)
     }
 
+    fun hideLoading() {
+        isShow = false
+        willRefresh = false
+        homeHeaderView?.let { it -> removeView(loadingView) }
+
+    }
+
     override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
         var resume = super.onInterceptTouchEvent(e)
         when (e?.action) {
             MotionEvent.ACTION_DOWN -> {
+                //down事件发生记录y坐标，后续判断是否可以刷新
+                mLastMotionY = e.y
+                downY = e.y.toInt()
+                constY = e.y.toInt()
                 resume = false
             }
 
             MotionEvent.ACTION_MOVE -> {
-                deltaY = e.y - mLastMotionY
-                //如果滑动距离超过300并且没有到达rv底部就可以刷新，并将事件拦截
-                if (deltaY >= pullDistance && !this.canScrollVertically(-1)) {
-                    canRefresh = true
-                }
                 resume = true
             }
 
@@ -89,7 +97,7 @@ class PullRefreshRecyclerView : RecyclerView {
                 //记录手指刚触摸屏幕的坐标
                 downY = e.y.toInt()
                 constY = e.y.toInt()
-                if (!this.canScrollVertically(-1)) {
+                if (!this.canScrollVertically(-1) && !willRefresh) {
                     canRefresh = true
                 }
             }
@@ -97,8 +105,8 @@ class PullRefreshRecyclerView : RecyclerView {
                 deltaY = e.y
                 if (isFirstMove) {
                     isFirstMove = false
-                    if (deltaY >= pullDistance && !this.canScrollVertically(-1)) {
-                        canRefresh = true
+                    if (canRefresh) {
+                        canRefresh = e.y - downY > 0
                     }
                 }
 
@@ -115,7 +123,11 @@ class PullRefreshRecyclerView : RecyclerView {
 
             }
             MotionEvent.ACTION_UP -> {
-
+                canRefresh = false
+                isFirstMove = true
+                if (getChildAt(0) is HomeHeaderView) {
+                    getChildAt(0)?.let { it -> recover() }
+                }
             }
         }
 
@@ -125,9 +137,20 @@ class PullRefreshRecyclerView : RecyclerView {
     }
 
 
+    /**
+     * 松手后恢复
+     */
+    private fun recover() {
+        homeHeaderView = getChildAt(0) as HomeHeaderView
+        Log.i("PullRefreshRecyclerView", "松手恢复")
+        hideLoading()
+    }
+
+
     interface OnRefreshListener {
         fun onRefresh()
     }
+
     var onRefreshListner: OnRefreshListener? = null
 
     fun setOnRefreshListener(listener: OnRefreshListener) {

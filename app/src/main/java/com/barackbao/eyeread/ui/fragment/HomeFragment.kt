@@ -3,6 +3,7 @@ package com.barackbao.eyeread.ui.fragment
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,8 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
     val homeAdapter: HomeAdapter by lazy { HomeAdapter() }
 
+    val linearLayoutManger by lazy { home_rv.layoutManager as LinearLayoutManager }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_home, null)
     }
@@ -44,10 +47,15 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        persenter.getFirstData()
     }
 
     private fun initView() {
         //设置toolbar字体
+        activity.toolbar_title_tv?.typeface = Typeface.createFromAsset(activity?.assets,
+                "fonts/Mina_Regular.ttf")
+        val paint = activity.toolbar_title_tv.paint
+        paint.isFakeBoldText = true
 
         home_rv.adapter = homeAdapter
         home_rv.layoutManager = LinearLayoutManager(activity)
@@ -58,6 +66,35 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
         })
 
+        home_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            //监听是否滑动
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                setUpToolbar()
+            }
+        })
+
+    }
+
+    override fun setUpToolbar(): Boolean {
+        if (super.setUpToolbar()) {
+            true
+        }
+        val firstAdapterPosition = linearLayoutManger.findFirstVisibleItemPosition()
+        if (firstAdapterPosition == 0) { //如果当前是headerview就设置为透明
+            activity.toolbar.setBackgroundColor(0x00000000.toInt())
+            activity.refresh_img.visibility = View.GONE
+            activity.toolbar_title_tv.text = "test"
+        } else {
+            if (homeAdapter.itemList.size > 1) {
+                activity.toolbar.setBackgroundColor(0xddffffff.toInt())
+                activity.refresh_img.visibility = View.VISIBLE
+                activity.refresh_img.setImageResource(R.drawable.ic_action_home_refresh)
+                activity.toolbar_title_tv.text = "test"
+            }
+        }
+        return true
     }
 
 
@@ -67,6 +104,7 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
     override fun setFirstData(homeBean: HomeBean) {
         homeAdapter.itemList = homeBean.issueList[0].itemList
+        home_rv.hideLoading()
     }
 
     override fun setMoreData(itemList: ArrayList<Item>) {

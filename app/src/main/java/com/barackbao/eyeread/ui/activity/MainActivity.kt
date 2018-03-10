@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
             if (tab == radioId) {
                 curFragment?.let {
                     //智能转换成basefr
-                    curFragment.refreshToolbar()
+                    curFragment.setUpToolbar()
                     beginTransaction.show(it)
                 }
             } else {

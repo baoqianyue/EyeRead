@@ -27,7 +27,7 @@ class HomeHeaderView : RelativeLayout {
      * 可能有bug
      */
     fun setData(datas: ArrayList<Item>?) {
-        Glide.with(context).load(datas!![0].data?.cover?.feed).into(home_head_img)
+        Glide.with(context).load(R.drawable.barack).into(home_head_img)
         home_banner_name_tv.text = datas!![0].data?.title
         home_banner_description_tv.text = datas!![0].data?.slogan
     }
