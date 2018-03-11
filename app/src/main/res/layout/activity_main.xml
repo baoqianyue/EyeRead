@@ -7,8 +7,7 @@
         android:id="@+id/content_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/root_rg" >
-
+        android:layout_above="@+id/root_rg">
 
 
         <RelativeLayout
@@ -40,8 +39,6 @@
     </FrameLayout>
 
 
-
-
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -50,7 +47,7 @@
     <RadioGroup
         android:id="@+id/root_rg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         android:orientation="horizontal"

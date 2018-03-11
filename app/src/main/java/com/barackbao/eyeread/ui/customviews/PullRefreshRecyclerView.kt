@@ -122,6 +122,7 @@ class PullRefreshRecyclerView : RecyclerView {
                 }
 
             }
+            //手指抬起，恢复
             MotionEvent.ACTION_UP -> {
                 canRefresh = false
                 isFirstMove = true
@@ -143,6 +144,7 @@ class PullRefreshRecyclerView : RecyclerView {
     private fun recover() {
         homeHeaderView = getChildAt(0) as HomeHeaderView
         Log.i("PullRefreshRecyclerView", "松手恢复")
+
         hideLoading()
     }
 

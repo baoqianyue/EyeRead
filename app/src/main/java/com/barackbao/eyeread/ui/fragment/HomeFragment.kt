@@ -63,7 +63,6 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
             override fun onRefresh() {
                 persenter.getFirstData()
             }
-
         })
 
         home_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -85,7 +84,7 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
         if (firstAdapterPosition == 0) { //如果当前是headerview就设置为透明
             activity.toolbar.setBackgroundColor(0x00000000.toInt())
             activity.refresh_img.visibility = View.GONE
-            activity.toolbar_title_tv.text = "test"
+            activity.toolbar_title_tv.text = ""
         } else {
             if (homeAdapter.itemList.size > 1) {
                 activity.toolbar.setBackgroundColor(0xddffffff.toInt())
@@ -103,6 +102,7 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
     }
 
     override fun setFirstData(homeBean: HomeBean) {
+        homeAdapter.setHeadViewSize(homeBean.issueList[0].count)
         homeAdapter.itemList = homeBean.issueList[0].itemList
         home_rv.hideLoading()
     }
@@ -113,6 +113,7 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
     override fun onError() {
         showToast("网络错误")
+        home_rv.hideLoading()
     }
 
 }
