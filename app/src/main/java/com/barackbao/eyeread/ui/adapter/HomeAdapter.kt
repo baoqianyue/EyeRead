@@ -65,7 +65,8 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
         val itemViewType = getItemViewType(position)
         when (itemViewType) {
             TYPE_HEADERVIEW -> {
-                (holder?.itemView as HomeHeaderView).setData(itemList)
+                (holder?.itemView as HomeHeaderView).
+                        setData(itemList.take(headViewDataSize).toCollection(ArrayList()))
             }
             TYPE_SIMPLE -> (holder?.itemView as HomeVideoItem).let {
                 it.setData(itemList[position + headViewDataSize - 1], "feed")

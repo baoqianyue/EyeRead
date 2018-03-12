@@ -1,7 +1,6 @@
 package com.barackbao.eyeread.ui.customviews
 
 import android.content.Context
-import android.media.Image
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.Log
@@ -58,6 +57,7 @@ class PullRefreshRecyclerView : RecyclerView {
 
     fun showLoading(viewGroup: ViewGroup) {
         isShow = true
+        viewGroup.removeAllViews()
         viewGroup.addView(loadingView)
     }
 
@@ -66,28 +66,6 @@ class PullRefreshRecyclerView : RecyclerView {
         willRefresh = false
         homeHeaderView?.let { it -> removeView(loadingView) }
 
-    }
-
-    override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
-        var resume = super.onInterceptTouchEvent(e)
-        when (e?.action) {
-            MotionEvent.ACTION_DOWN -> {
-                //down事件发生记录y坐标，后续判断是否可以刷新
-                mLastMotionY = e.y
-                downY = e.y.toInt()
-                constY = e.y.toInt()
-                resume = false
-            }
-
-            MotionEvent.ACTION_MOVE -> {
-                resume = true
-            }
-
-            MotionEvent.ACTION_UP -> {
-                resume = false
-            }
-        }
-        return resume
     }
 
     override fun onTouchEvent(e: MotionEvent?): Boolean {
@@ -122,7 +100,7 @@ class PullRefreshRecyclerView : RecyclerView {
                 }
 
             }
-            //手指抬起，恢复
+        //手指抬起，恢复
             MotionEvent.ACTION_UP -> {
                 canRefresh = false
                 isFirstMove = true
