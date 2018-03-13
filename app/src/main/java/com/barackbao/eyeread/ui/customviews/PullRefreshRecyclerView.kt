@@ -41,7 +41,7 @@ class PullRefreshRecyclerView : RecyclerView {
     //具体的loadingImageView
     val loading by lazy {
         val loadView = ImageView(context)
-        loadView.setImageResource(R.mipmap.eye_loading_progress)
+        loadView.setImageResource(R.drawable.loading_ic)
         loadView
     }
 
