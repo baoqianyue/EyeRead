@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.barackbao.eyeread.mvp.model.bean.Item
+import com.barackbao.eyeread.ui.customviews.HomeHeaderTextView
 import com.barackbao.eyeread.ui.customviews.HomeHeaderView
 import com.barackbao.eyeread.ui.customviews.HomeVideoItem
+import com.barackbao.eyeread.utils.ScreenUtil
 
 /**
  * Created by BarackBao on 2018/3/8.
@@ -14,6 +16,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private val TYPE_HEADERVIEW = 1
     private val TYPE_SIMPLE = 2
+    private val TYPE_HEADER_TEXT = 3
 
     var headViewDataSize = 0
 
@@ -32,6 +35,9 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
             return TYPE_HEADERVIEW
+        }
+        if (itemList[position + headViewDataSize - 1].type == "textHeader") {
+            return TYPE_HEADER_TEXT
         } else {
             return TYPE_SIMPLE
         }
@@ -46,6 +52,12 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
             TYPE_SIMPLE -> {
                 val videoItemView = HomeVideoItem(parent!!.context)
                 return ViewHolder(videoItemView)
+            }
+            TYPE_HEADER_TEXT -> {
+                val headerText = HomeHeaderTextView(parent!!.context)
+                headerText.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
+                        ScreenUtil.dip2px(56f, parent!!.context))
+                return ViewHolder(headerText)
             }
             else -> return ViewHolder(null)
         }
@@ -65,11 +77,13 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
         val itemViewType = getItemViewType(position)
         when (itemViewType) {
             TYPE_HEADERVIEW -> {
-                (holder?.itemView as HomeHeaderView).
-                        setData(itemList.take(headViewDataSize).toCollection(ArrayList()))
+                (holder?.itemView as HomeHeaderView).setData(itemList.take(headViewDataSize).toCollection(ArrayList()))
             }
             TYPE_SIMPLE -> (holder?.itemView as HomeVideoItem).let {
                 it.setData(itemList[position + headViewDataSize - 1], "feed")
+            }
+            TYPE_HEADER_TEXT -> {
+                (holder?.itemView as HomeHeaderTextView).setHeaderText(itemList[position + headViewDataSize - 1].data?.text)
             }
         }
     }

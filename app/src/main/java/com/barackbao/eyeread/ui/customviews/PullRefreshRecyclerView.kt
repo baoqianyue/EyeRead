@@ -1,5 +1,6 @@
 package com.barackbao.eyeread.ui.customviews
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -8,6 +9,9 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.barackbao.eyeread.R
@@ -51,20 +55,32 @@ class PullRefreshRecyclerView : RecyclerView {
         frameLayout
     }
 
+    val loadViewAnimator by lazy {
+        val rotationAnimator = RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+        rotationAnimator.duration = 500
+        rotationAnimator.repeatCount = -1
+        //匀速
+        rotationAnimator.interpolator = LinearInterpolator()
+        rotationAnimator
+    }
+
 
     //将loadingView 放在HeaderView的上面
     var isShow: Boolean = false
 
     fun showLoading(viewGroup: ViewGroup) {
-        isShow = true
-        viewGroup.removeAllViews()
+        val perParentViewGroup = loadingView.parent as ViewGroup?
+        if (perParentViewGroup != null) {
+            perParentViewGroup.removeView(loadingView)
+        }
         viewGroup.addView(loadingView)
     }
 
     fun hideLoading() {
         isShow = false
         willRefresh = false
-        homeHeaderView?.let { it -> removeView(loadingView) }
+        loadViewAnimator.cancel()
+        homeHeaderView?.removeView(loadingView)
 
     }
 
@@ -81,19 +97,16 @@ class PullRefreshRecyclerView : RecyclerView {
             }
             MotionEvent.ACTION_MOVE -> {
                 deltaY = e.y
-                if (isFirstMove) {
-                    isFirstMove = false
-                    if (canRefresh) {
-                        canRefresh = e.y - downY > 0
-                    }
+                if (canRefresh) {
+                    canRefresh = e.y - downY > 0
                 }
 
                 if (canRefresh) {
                     if (getChildAt(0) is HomeHeaderView) {
                         //在headview上显示loading
-                        var loadView = getChildAt(0) as HomeHeaderView
+                        var headerView = getChildAt(0) as HomeHeaderView
                         if (!isShow) {
-                            showLoading(loadView)
+                            showLoading(headerView)
                         }
 
                     }
@@ -103,14 +116,11 @@ class PullRefreshRecyclerView : RecyclerView {
         //手指抬起，恢复
             MotionEvent.ACTION_UP -> {
                 canRefresh = false
-                isFirstMove = true
                 if (getChildAt(0) is HomeHeaderView) {
                     getChildAt(0)?.let { it -> recover() }
                 }
             }
         }
-
-
 
         return super.onTouchEvent(e)
     }
@@ -122,8 +132,8 @@ class PullRefreshRecyclerView : RecyclerView {
     private fun recover() {
         homeHeaderView = getChildAt(0) as HomeHeaderView
         Log.i("PullRefreshRecyclerView", "松手恢复")
-
-        hideLoading()
+        loading.startAnimation(loadViewAnimator)
+        onRefreshListner?.onRefresh()//回调方法重新请求数据并重置界面
     }
 
 
