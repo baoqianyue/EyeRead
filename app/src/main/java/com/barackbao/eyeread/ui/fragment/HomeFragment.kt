@@ -40,9 +40,10 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
     val linearLayoutManger by lazy { home_rv.layoutManager as LinearLayoutManager }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_home, null)
-    }
+    var isLoadingMore = false
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater?.inflate(R.layout.fragment_home, null)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +68,24 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
         home_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){ //当手指离开屏幕开始处理事件
+                    val childCount = home_rv.childCount
+                    val itemCount =home_rv.layoutManager.itemCount
+                    val firstItemPosition = (home_rv.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    if (childCount + firstItemPosition == itemCount){
+                        //滑动到底部了
+                        if (!isLoadingMore){
+                            isLoadingMore = true
+                            LoadingMore()
+                        }
+                    }
+
+                }
+
+            }
+
             //监听是否滑动
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -74,6 +93,10 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
             }
         })
 
+    }
+
+    private fun LoadingMore() {
+        persenter.getMoreData()
     }
 
     override fun setUpToolbar(): Boolean {
@@ -108,7 +131,8 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
     }
 
     override fun setMoreData(itemList: ArrayList<Item>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        isLoadingMore = false
+        homeAdapter.addData(itemList)
     }
 
     override fun onError() {

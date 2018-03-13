@@ -15,6 +15,7 @@ class HomePresenter(view: HomeContract.CHomeView) : HomeContract.CHomePresenter 
     init {
         homeView = view
     }
+
     var bannerHomeBean: HomeBean? = null
 
     var nextPageUrl: String? = null
@@ -37,7 +38,7 @@ class HomePresenter(view: HomeContract.CHomeView) : HomeContract.CHomePresenter 
 
                     //过滤掉banner2item
                     val newItemList = homeBean.issueList[0].itemList
-                    newItemList.filter { item -> item.type == "banner2" }.forEach { item -> newItemList.remove(item)  }
+                    newItemList.filter { item -> item.type == "banner2" }.forEach { item -> newItemList.remove(item) }
 
                     bannerHomeBean?.issueList!![0].itemList.addAll(newItemList)
                     homeView.setFirstData(bannerHomeBean!!)
@@ -49,6 +50,15 @@ class HomePresenter(view: HomeContract.CHomeView) : HomeContract.CHomePresenter 
     }
 
     override fun getMoreData() {
+        nextPageUrl?.let {
+            homeModel.loadMoreData(it).subscribe({ t: HomeBean ->
+                val moreDataList = t.issueList[0].itemList
+                //过滤掉头部view数据
+                moreDataList.filter { item -> item.type == "banner2" }.forEach { it -> moreDataList.remove(it) }
+                homeView.setMoreData(moreDataList)
+                nextPageUrl = t.nextPageUrl
+            })
+        }
     }
 
 }
