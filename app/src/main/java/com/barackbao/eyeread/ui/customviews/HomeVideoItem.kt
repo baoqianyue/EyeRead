@@ -53,7 +53,8 @@ class HomeVideoItem : FrameLayout {
             Glide.with(context).load(icon).asBitmap().centerCrop().into(circleVideoIcon)
         }
 
-        video_title_tv.setText(item.data?.text)
+        video_title_tv.setText(item.data?.title)
+
 
 
     }

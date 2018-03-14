@@ -1,5 +1,6 @@
 package com.barackbao.eyeread.ui.adapter
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
                 val headerText = HomeHeaderTextView(parent!!.context)
                 headerText.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
                         ScreenUtil.dip2px(56f, parent!!.context))
+                headerText.setBackgroundColor(Color.parseColor("#f7dba3"))
                 return ViewHolder(headerText)
             }
             else -> return ViewHolder(null)

@@ -10,6 +10,7 @@ import android.widget.TextView
 
 /**
  * Created by BarackBao on 2018/3/13.
+ * 首页自定义textView，显示视频发布日期
  */
 class HomeHeaderTextView : FrameLayout {
 

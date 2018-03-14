@@ -34,9 +34,6 @@ abstract class BaseFragment constructor(tabId: Int) : Fragment(), RxManager {
     }
 
 
-    /**
-     * 刷新主页toolbar
-     */
     open fun setUpToolbar(): Boolean {
         if (tabId != currentFragment) {
             return true

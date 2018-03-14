@@ -1,5 +1,6 @@
 package com.barackbao.eyeread.ui.fragment
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -27,14 +28,13 @@ import java.util.*
  */
 class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
+
     //持有persenter
     var persenter: HomePresenter
 
     init {
         persenter = HomePresenter(this)
     }
-
-    val simpleDateFormat by lazy { SimpleDateFormat("- MMM. dd, 'Brunch' -", Locale.ENGLISH) }
 
     val homeAdapter: HomeAdapter by lazy { HomeAdapter() }
 
@@ -70,13 +70,13 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (newState == RecyclerView.SCROLL_STATE_IDLE){ //当手指离开屏幕开始处理事件
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) { //当手指离开屏幕开始处理事件
                     val childCount = home_rv.childCount
-                    val itemCount =home_rv.layoutManager.itemCount
+                    val itemCount = home_rv.layoutManager.itemCount
                     val firstItemPosition = (home_rv.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if (childCount + firstItemPosition == itemCount){
+                    if (childCount + firstItemPosition == itemCount) {
                         //滑动到底部了
-                        if (!isLoadingMore){
+                        if (!isLoadingMore) {
                             isLoadingMore = true
                             LoadingMore()
                         }
@@ -89,6 +89,7 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
             //监听是否滑动
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                //根据当前rv滑动到的位置设置toolbar显示的内容
                 setUpToolbar()
             }
         })
@@ -105,20 +106,17 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
         }
         val firstAdapterPosition = linearLayoutManger.findFirstVisibleItemPosition()
         if (firstAdapterPosition == 0) { //如果当前是headerview就设置为透明
-            activity.toolbar.setBackgroundColor(0x00000000.toInt())
-            activity.refresh_img.visibility = View.GONE
+            activity.toolbar.setBackgroundColor(0x00000000)
             activity.toolbar_title_tv.text = ""
         } else {
             if (homeAdapter.itemList.size > 1) {
-                activity.toolbar.setBackgroundColor(0xddffffff.toInt())
-                activity.refresh_img.visibility = View.VISIBLE
+                activity.toolbar.setBackgroundColor(Color.parseColor("#f7dba3"))
                 activity.refresh_img.setImageResource(R.drawable.ic_action_home_refresh)
-                activity.toolbar_title_tv.text = "test"
+                activity.toolbar_title_tv.text = ""
             }
         }
         return true
     }
-
 
     override fun setPresenter(presenter: HomeContract.CHomePresenter) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

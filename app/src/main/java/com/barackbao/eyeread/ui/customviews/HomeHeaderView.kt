@@ -5,7 +5,6 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import com.barackbao.eyeread.R
 import com.barackbao.eyeread.mvp.model.bean.Item
 import com.bumptech.glide.Glide
@@ -25,9 +24,9 @@ class HomeHeaderView : FrameLayout {
     private fun initViews() {
         View.inflate(context, R.layout.layout_home_header, this)
         home_banner_name_tv.typeface = Typeface.createFromAsset(context.assets,
-                "fonts/RammettoOne_Regular.ttf")
+                "fonts/chinese.ttf")
         home_banner_description_tv.typeface = Typeface.createFromAsset(context.assets,
-                "fonts/RammettoOne_Regular.ttf")
+                "fonts/chinese.ttf")
     }
 
     /**
