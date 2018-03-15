@@ -13,6 +13,7 @@ import retrofit2.http.Url
 /**
  * Created by BarackBao on 2018/2/1.
  */
+
 interface Api {
     /**
      * 每日精选(首页banner加上num页数据，num是几就是几页数据)
@@ -36,11 +37,12 @@ interface Api {
     @GET
     fun getIssue(@Url url: String): Observable<Issue>
 
+
     /**
-     * 获取热门排行数据
+     * 获取视频对应评论等信息
      */
-    @GET
-    fun getHotCategory(@Url url: String): Observable<HotCategory>
+    @GET("v2/replies/video?")
+    fun getComment(@Query("videoId") videoId: Long): Observable<Issue>
 
 
     /**
@@ -56,9 +58,5 @@ interface Api {
     @GET("v4/categories/videoList")
     fun getCategoryItemList(@Query("id") id: Long): Observable<Issue>
 
-
-    /**
-     * 获取回复
-     */
 
 }

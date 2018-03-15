@@ -34,7 +34,7 @@ class HomePresenter(view: HomeContract.CHomeView) : HomeContract.CHomePresenter 
                 })
                 .subscribe({ homeBean ->
                     nextPageUrl = homeBean.nextPageUrl
-                    bannerHomeBean!!.issueList[0].count = bannerHomeBean!!.issueList[0].itemList.size//这里记录轮播图的长度，在adapter中用
+                    bannerHomeBean!!.issueList[0].count = bannerHomeBean!!.issueList[0].itemList.size
 
                     //过滤掉banner2item
                     val newItemList = homeBean.issueList[0].itemList
