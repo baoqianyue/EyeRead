@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.barackbao.eyeread.R
+import com.barackbao.eyeread.mvp.model.bean.Item
 import kotlinx.android.synthetic.main.layout_video_content_info.view.*
 
 /**
@@ -28,11 +29,17 @@ class VideoContentInfoView : LinearLayout {
         video_desc_tv.setTextColor(Color.parseColor("#f7dba3"))
     }
 
+    fun setData(item: Item) {
+        setTitle(item.data?.title)
+        setTags("${item.data?.category} / ${item.data?.duration}")
+        setDesc(item.data?.description)
+    }
+
     fun setTitle(title: String?) {
         this.video_title_tv.text = title
     }
 
-    fun setTag(tag: String?) {
+    fun setTags(tag: String?) {
         this.video_tag_tv.text = tag
     }
 

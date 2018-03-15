@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.barackbao.eyeread.mvp.model.bean.Item
+import com.barackbao.eyeread.ui.customviews.VideoContentInfoView
 
 /**
  * Created by BarackBao on 2018/3/15.
@@ -11,23 +12,30 @@ import com.barackbao.eyeread.mvp.model.bean.Item
 class VideoContentAdapter : RecyclerView.Adapter<VideoContentAdapter.ViewHolder>() {
     private val TYPE_VIDEO_INFO = 0
     private val TYPE_VIDEO_COMMENT = 1
-    private val TYPE_END = 2
 
     val data: ArrayList<Item> by lazy { ArrayList<Item>() }
 
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 0) {
-            return TYPE_VIDEO_INFO
+        return if (position == 0) {
+            TYPE_VIDEO_INFO
+        } else {
+            TYPE_VIDEO_COMMENT
         }
-        return super.getItemViewType(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val itemView:View
-        when(viewType){
+        var itemView: View
+        when (viewType) {
             TYPE_VIDEO_INFO -> {
+                itemView = VideoContentInfoView(parent?.context)
             }
+
+            TYPE_VIDEO_COMMENT -> {
+                itemView =
+            }
+
+
         }
     }
 
