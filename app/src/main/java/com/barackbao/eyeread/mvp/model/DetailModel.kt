@@ -15,4 +15,9 @@ class DetailModel {
     fun loadCommenList(videoId: Long): Observable<Issue> {
         return Net.service.getComment(videoId).io_main()
     }
+
+    //更多评论
+    fun loadMoreCommentList(url:String):Observable<Issue>{
+        return Net.service.getIssue(url).io_main()
+    }
 }

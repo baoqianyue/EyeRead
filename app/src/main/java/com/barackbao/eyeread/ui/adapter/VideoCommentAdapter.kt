@@ -38,19 +38,19 @@ class VideoCommentAdapter : RecyclerView.Adapter<VideoCommentAdapter.ViewHolder>
 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        var item: View
+        var itemView: View? = null
         when (viewType) {
             TYPE_COMMENT -> {
-                item = VideoCommentDetailView(parent?.context)
+                itemView = VideoCommentDetailView(parent?.context)
             }
             TYPE_COMMENT_TITLE -> {
-                item = VideoCommentDetailTitleView(parent?.context)
+                itemView = VideoCommentDetailTitleView(parent?.context)
             }
             TYPE_END -> {
-                item = EndListView(parent?.context)
+                itemView = EndListView(parent?.context)
             }
         }
-        return ViewHolder(item)
+        return ViewHolder(itemView)
 
     }
 
@@ -66,6 +66,26 @@ class VideoCommentAdapter : RecyclerView.Adapter<VideoCommentAdapter.ViewHolder>
                 (itemView as VideoCommentDetailView).setData(data[position])
             }
         }
+    }
+
+    //加载更多
+    fun addData(items: ArrayList<Item>) {
+        data.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun addData(item: Item) {
+        if (data[data.size - 1].data == null) { //数据为空时
+            return
+        }
+        data.add(item)
+        notifyDataSetChanged()
+    }
+
+    fun setData(items: ArrayList<Item>) {
+        data.clear()
+        notifyDataSetChanged()
+        addData(items)
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)

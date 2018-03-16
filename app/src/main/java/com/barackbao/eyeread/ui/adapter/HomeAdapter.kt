@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.barackbao.eyeread.mvp.model.bean.Item
+import com.barackbao.eyeread.ui.activity.VideoContentActivity
 import com.barackbao.eyeread.ui.customviews.HomeHeaderTextView
 import com.barackbao.eyeread.ui.customviews.HomeHeaderView
 import com.barackbao.eyeread.ui.customviews.HomeVideoItem
 import com.barackbao.eyeread.utils.ScreenUtil
+import com.barackbao.eyeread.utils.startActivityWithData
 
 /**
  * Created by BarackBao on 2018/3/8.
@@ -82,6 +84,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
                 (holder?.itemView as HomeHeaderView).setData(itemList.take(headViewDataSize).toCollection(ArrayList()))
             }
             TYPE_SIMPLE -> (holder?.itemView as HomeVideoItem).let {
+                it.setOnClickListener { view -> view.context.startActivityWithData<VideoContentActivity>(itemList[position + headViewDataSize - 1]) }
                 it.setData(itemList[position + headViewDataSize - 1], "feed")
             }
             TYPE_HEADER_TEXT -> {

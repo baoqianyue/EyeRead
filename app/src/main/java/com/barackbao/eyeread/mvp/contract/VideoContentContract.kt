@@ -2,6 +2,7 @@ package com.barackbao.eyeread.mvp.contract
 
 import com.barackbao.eyeread.mvp.base.BasePresenter
 import com.barackbao.eyeread.mvp.base.BaseView
+import com.barackbao.eyeread.mvp.model.bean.Issue
 import com.barackbao.eyeread.mvp.model.bean.Item
 import io.reactivex.disposables.Disposable
 
@@ -19,15 +20,18 @@ interface VideoContentContract {
         fun setVideoInfo(info: Item)
 
         //设置视频评论
-        fun setVideoComment(title: String)
+        fun setVideoComment(issue: Issue)
+
+        //设置更多评论
+        fun setMoreComment(issue: Issue?)
 
         //设置背景
         fun setBackground(url: String)
     }
 
     interface VPersenter : BasePresenter {
-        //获取视频相关信息
-        fun getVideoInfo(itemInfo: Item): Disposable?
+        //初始化播放器
+        fun initPlayer(itemData: Item): Disposable?
 
         //获取视频评论
         fun getVideoComment(videoId: Long): Disposable?

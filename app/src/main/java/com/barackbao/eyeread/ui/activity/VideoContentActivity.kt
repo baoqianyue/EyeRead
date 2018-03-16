@@ -7,19 +7,26 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.barackbao.eyeread.R
 import com.barackbao.eyeread.mvp.contract.VideoContentContract
+import com.barackbao.eyeread.mvp.model.bean.Issue
 import com.barackbao.eyeread.mvp.model.bean.Item
 import com.barackbao.eyeread.mvp.presenter.VideoContentPersenter
+import com.barackbao.eyeread.ui.adapter.VideoCommentAdapter
+import com.barackbao.eyeread.ui.adapter.VideoContentAdapter
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
 import kotlinx.android.synthetic.main.activity_videocontent.*
+import kotlinx.android.synthetic.main.layout_video_comment.*
 
 /**
  * Created by BarackBao on 2018/3/15.
  */
 class VideoContentActivity : AppCompatActivity(), VideoContentContract.VView {
+
+
     //持有persenter
     lateinit var persenter: VideoContentPersenter
     var itemData: Item? = null
-    val adapter by lazy {  }
+    val adapter by lazy { VideoContentAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +45,9 @@ class VideoContentActivity : AppCompatActivity(), VideoContentContract.VView {
             }
             video_view.startWindowFullscreen(this, true, true)
         }
+        video_view.isRotateViewAuto = false
         video_content_rv.layoutManager = LinearLayoutManager(this)
+        video_content_rv.adapter = adapter
 
 
     }
@@ -61,6 +70,8 @@ class VideoContentActivity : AppCompatActivity(), VideoContentContract.VView {
 
 
     private fun setData() {
+        itemData = intent.getSerializableExtra("data") as Item
+        persenter.initPlayer(itemData!!)
     }
 
 
@@ -69,19 +80,41 @@ class VideoContentActivity : AppCompatActivity(), VideoContentContract.VView {
     }
 
     override fun setVideo(videoUrl: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        video_view.setUp(videoUrl, false, "")
+        video_view.startPlayLogic()
     }
 
     override fun setVideoInfo(info: Item) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        itemData = info
+        adapter.addData(info)
     }
 
-    override fun setVideoComment(title: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun setVideoComment(issue: Issue) {
+        val adapter = VideoCommentAdapter()
+        adapter.setData(issue.itemList)
+    }
+
+    override fun setMoreComment(issue: Issue?) {
+
     }
 
     override fun setBackground(url: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onResume() {
+        super.onResume()
+        GSYVideoManager.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        GSYVideoManager.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        GSYVideoPlayer.releaseAllVideos()
     }
 
 

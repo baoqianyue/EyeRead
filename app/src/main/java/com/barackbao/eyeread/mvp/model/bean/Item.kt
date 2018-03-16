@@ -62,7 +62,7 @@ data class Item(val type: String, val data: Data?, val tag: String) : Serializab
                          val blurred: String, val sharing: String, val homepage: String) : Serializable
 
         data class WebUrl(val raw: String, val forWeibo: String) : Serializable
-        data class PlayInfo(val name: String, val url: String, val type: String,
+        data class PlayInfo(val name: String, val url: String, var type: String,
                             val urlList: ArrayList<Url>) : Serializable
 
         data class Consumption(val collectionCount: Int, val shareCount: Int,

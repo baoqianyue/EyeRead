@@ -3,6 +3,7 @@ package com.barackbao.eyeread.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.support.v4.app.Fragment
 import android.widget.Toast
 import io.reactivex.Observable
@@ -39,4 +40,19 @@ inline fun <reified T : Activity> Context.startActivityWithData(data: Serializab
     val intent = Intent(this, T::class.java)
     intent.putExtra("data", data)
     startActivity(intent)
+}
+
+fun Context.getNetworkType(): Int {
+    val netService = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetworkInfo = netService.activeNetworkInfo
+
+    if (activeNetworkInfo == null || !activeNetworkInfo.isAvailable) {
+        return 0
+    } else {
+        val netType = activeNetworkInfo?.type
+        if (netType == ConnectivityManager.TYPE_WIFI) {
+            return 1
+        }
+    }
+    return 0
 }
