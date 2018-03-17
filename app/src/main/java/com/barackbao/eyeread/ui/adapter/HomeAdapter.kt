@@ -25,6 +25,8 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     var itemList: ArrayList<Item> = ArrayList()
 
+    lateinit var headerview: HomeHeaderView
+
     fun setHeadViewSize(size: Int) {
         headViewDataSize = size
     }
@@ -81,7 +83,8 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
         val itemViewType = getItemViewType(position)
         when (itemViewType) {
             TYPE_HEADERVIEW -> {
-                (holder?.itemView as HomeHeaderView).setData(itemList.take(headViewDataSize).toCollection(ArrayList()))
+                headerview = holder?.itemView as HomeHeaderView
+                headerview.setData(itemList.take(headViewDataSize).toCollection(ArrayList()))
             }
             TYPE_SIMPLE -> (holder?.itemView as HomeVideoItem).let {
                 it.setOnClickListener { view -> view.context.startActivityWithData<VideoContentActivity>(itemList[position + headViewDataSize - 1]) }

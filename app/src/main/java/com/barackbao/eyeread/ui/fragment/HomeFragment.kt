@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by BarackBao on 2018/2/4.
@@ -125,7 +126,9 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
     override fun setFirstData(homeBean: HomeBean) {
         homeAdapter.setHeadViewSize(homeBean.issueList[0].count)
         homeAdapter.itemList = homeBean.issueList[0].itemList
+        homeAdapter.headerview.setData(homeAdapter.itemList.take(homeAdapter.headViewDataSize).toCollection(ArrayList()))
         home_rv.hideLoading()
+
     }
 
     override fun setMoreData(itemList: ArrayList<Item>) {

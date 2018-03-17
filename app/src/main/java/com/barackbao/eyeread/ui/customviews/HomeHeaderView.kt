@@ -36,7 +36,7 @@ class HomeHeaderView : FrameLayout {
     fun setData(datas: ArrayList<Item>) {
         datas.filter { item -> item.type == "banner2" }.forEach { item -> datas.remove(item) }
         val random = Random()
-        var d = random.nextInt(6)
+        var d = random.nextInt(5)
         val headerItemData = datas!![d]
         Glide.with(context).load(headerItemData.data?.cover?.feed).into(home_head_img)
         home_banner_name_tv.text = headerItemData.data?.title

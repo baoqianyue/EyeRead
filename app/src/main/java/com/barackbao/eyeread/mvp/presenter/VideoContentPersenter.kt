@@ -1,6 +1,7 @@
 package com.barackbao.eyeread.mvp.presenter
 
 import android.app.Activity
+import android.util.Log
 import com.barackbao.eyeread.mvp.contract.VideoContentContract
 import com.barackbao.eyeread.mvp.model.DetailModel
 import com.barackbao.eyeread.mvp.model.bean.Issue
@@ -51,6 +52,7 @@ class VideoContentPersenter(view: VideoContentContract.VView) : VideoContentCont
             }
         }
         videoContentView.setVideoInfo(itemData)
+        Log.i("VideoInfo", itemData.data?.title)
         return getVideoComment(itemData?.data?.id!!)
     }
 

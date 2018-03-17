@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import com.barackbao.eyeread.R
@@ -39,6 +40,7 @@ class VideoCommentDetailView : RelativeLayout {
         Glide.with(context).load(item.data?.user?.avatar).asBitmap().centerCrop().into(circleAvatar)
 
         this.nickname_tv.text = item.data?.user?.nickname
+        Log.i("comment_nickname", item.data?.user?.nickname)
         this.like_tv.text = "" + if (item.data?.likeCount == 0) "" else item.data?.likeCount
         if (item.data?.parentReply != null) {
             this.comment_tv.text = item.data?.parentReply?.user.nickname

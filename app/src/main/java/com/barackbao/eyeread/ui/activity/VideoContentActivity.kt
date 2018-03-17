@@ -37,6 +37,9 @@ class VideoContentActivity : AppCompatActivity(), VideoContentContract.VView {
     }
 
     private fun initView() {
+
+        video_content_rv.layoutManager = LinearLayoutManager(this)
+        video_content_rv.adapter = adapter
         //设置视频全屏播放
         video_view.fullscreenButton.setOnClickListener {
             if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -46,8 +49,6 @@ class VideoContentActivity : AppCompatActivity(), VideoContentContract.VView {
             video_view.startWindowFullscreen(this, true, true)
         }
         video_view.isRotateViewAuto = false
-        video_content_rv.layoutManager = LinearLayoutManager(this)
-        video_content_rv.adapter = adapter
 
 
     }
@@ -90,8 +91,6 @@ class VideoContentActivity : AppCompatActivity(), VideoContentContract.VView {
     }
 
     override fun setVideoComment(issue: Issue) {
-        val adapter = VideoCommentAdapter()
-        adapter.setData(issue.itemList)
     }
 
     override fun setMoreComment(issue: Issue?) {

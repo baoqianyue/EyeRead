@@ -1,10 +1,13 @@
 package com.barackbao.eyeread.ui.adapter
 
+import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.barackbao.eyeread.mvp.model.bean.Item
-import com.barackbao.eyeread.ui.customviews.VideoContentCommentView
+import com.barackbao.eyeread.ui.customviews.PercentTextView
+import com.barackbao.eyeread.ui.customviews.VideoCommentDetailView
 import com.barackbao.eyeread.ui.customviews.VideoContentInfoView
 
 /**
@@ -12,16 +15,16 @@ import com.barackbao.eyeread.ui.customviews.VideoContentInfoView
  */
 class VideoContentAdapter : RecyclerView.Adapter<VideoContentAdapter.ViewHolder>() {
     private val TYPE_VIDEO_INFO = 0
-    private val TYPE_VIDEO_COMMENT = 1
+    private val TYPE_VIDEO_COMMENT = 2
 
     val data: ArrayList<Item> by lazy { ArrayList<Item>() }
 
+    val commentData: ArrayList<Item> by lazy { ArrayList<Item>() }
+
 
     fun addData(item: Item) {
-        data.clear()
-        notifyDataSetChanged()
         data.add(item)
-        notifyItemInserted(0)
+        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -33,20 +36,23 @@ class VideoContentAdapter : RecyclerView.Adapter<VideoContentAdapter.ViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        var itemView: View? = null
+        var itemView: View
         when (viewType) {
             TYPE_VIDEO_INFO -> {
                 itemView = VideoContentInfoView(parent?.context)
             }
 
             TYPE_VIDEO_COMMENT -> {
-                itemView = VideoContentCommentView(parent?.context)
+                itemView = VideoCommentDetailView(parent?.context)
+            }
+            else -> {
+                throw IllegalAccessException("数据错误")
             }
         }
         return ViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int = data.size + 1
+    override fun getItemCount(): Int = 1
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val itemView = holder?.itemView
@@ -57,11 +63,12 @@ class VideoContentAdapter : RecyclerView.Adapter<VideoContentAdapter.ViewHolder>
                 }
             }
             TYPE_VIDEO_COMMENT -> {
-                (itemView as VideoContentCommentView).let {
+                (itemView as VideoCommentDetailView).let {
                 }
             }
         }
     }
+
 
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)

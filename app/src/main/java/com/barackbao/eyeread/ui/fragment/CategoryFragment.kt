@@ -1,5 +1,6 @@
 package com.barackbao.eyeread.ui.fragment
 
+import android.graphics.Color
 import android.graphics.Rect
 import android.hardware.display.DisplayManager
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.barackbao.eyeread.ui.base.tabsId
 import com.barackbao.eyeread.utils.ScreenUtil
 import com.barackbao.eyeread.utils.showToast
 import com.barackbao.eyeread.utils.startActivityWithData
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_category.*
 
 /**
@@ -55,16 +57,17 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
         category_rv.overScrollMode = RecyclerView.OVER_SCROLL_NEVER //消除滑动到边缘出现阴影
         category_rv.adapter = adapter
         //设置每个item的间隔值
-        category_rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView, state: RecyclerView.State?) {
-                val position = parent.getChildAdapterPosition(view)
-                //dip转换为像素单位
-                val itemMargin = ScreenUtil.dip2px(2f, context)!!
+        /* category_rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
+             override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView, state: RecyclerView.State?) {
+                 val position = parent.getChildAdapterPosition(view)
+                 //dip转换为像素单位
+                 val itemMargin = ScreenUtil.dip2px(4f, context)!!
 
-                outRect?.set(if (position % 2 == 0) 0 else itemMargin, itemMargin,
-                        if (position % 2 == 0) itemMargin else 0, itemMargin)
+                 *//*outRect?.set(if (position % 2 == 0) 0 else itemMargin, itemMargin,
+                        if (position % 2 == 0) itemMargin else 0, itemMargin)*//*
+                outRect?.set(itemMargin, itemMargin, itemMargin, itemMargin)
             }
-        })
+        })*/
 
         categoryPersenter.getData()
 
@@ -80,6 +83,16 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
 
     override fun onError() {
         showToast("网络连接错误...")
+    }
+
+    override fun setUpToolbar(): Boolean {
+        if (super.setUpToolbar()) {
+            return true
+        }
+        super.setUpToolbar()
+        activity.toolbar.setBackgroundColor(Color.parseColor("#f7dba3"))
+        activity.toolbar_title_tv.text = "分类"
+        return true
     }
 
 }
