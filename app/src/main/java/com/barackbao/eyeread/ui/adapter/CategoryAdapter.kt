@@ -18,7 +18,6 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     private val TYPE_END = 2
     var onClick: ((Category) -> Unit)? = {}
 
-
     val data by lazy { ArrayList<Category>() }
 
 
@@ -60,6 +59,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
             TYPE_SIMPLE -> {
                 (holder?.itemView as CategoryItemView).setData(data[position])
                 //设置点击事件
+                holder?.itemView.setOnClickListener { onClick?.invoke(data[position]) }
             }
         }
     }

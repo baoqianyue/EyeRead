@@ -56,6 +56,7 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
         category_rv.layoutManager = gridLayoutManager
         category_rv.overScrollMode = RecyclerView.OVER_SCROLL_NEVER //消除滑动到边缘出现阴影
         category_rv.adapter = adapter
+        adapter.onClick = { category -> activity.startActivityWithData<>() }
         //设置每个item的间隔值
         /* category_rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
              override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView, state: RecyclerView.State?) {
