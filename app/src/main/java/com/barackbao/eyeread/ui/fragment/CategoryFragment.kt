@@ -1,8 +1,6 @@
 package com.barackbao.eyeread.ui.fragment
 
 import android.graphics.Color
-import android.graphics.Rect
-import android.hardware.display.DisplayManager
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,6 +13,7 @@ import com.barackbao.eyeread.R
 import com.barackbao.eyeread.mvp.contract.CategoryContract
 import com.barackbao.eyeread.mvp.model.bean.Category
 import com.barackbao.eyeread.mvp.presenter.CategoryPersenter
+import com.barackbao.eyeread.ui.activity.CategoryListActivity
 import com.barackbao.eyeread.ui.adapter.CategoryAdapter
 import com.barackbao.eyeread.ui.base.BaseFragment
 import com.barackbao.eyeread.ui.base.tabsId
@@ -37,9 +36,8 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
         categoryPersenter = CategoryPersenter(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_category, null)
-    }
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater?.inflate(R.layout.fragment_category, null)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +54,7 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.CView
         category_rv.layoutManager = gridLayoutManager
         category_rv.overScrollMode = RecyclerView.OVER_SCROLL_NEVER //消除滑动到边缘出现阴影
         category_rv.adapter = adapter
-        adapter.onClick = { category -> activity.startActivityWithData<>() }
+        adapter.onClick = { category -> activity.startActivityWithData<CategoryListActivity>(category) }
         //设置每个item的间隔值
         /* category_rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
              override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView, state: RecyclerView.State?) {

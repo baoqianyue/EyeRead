@@ -24,6 +24,7 @@
             android:name=".ui.activity.VideoContentActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="nosensor" />
+        <activity android:name=".ui.activity.CategoryListActivity" />
     </application>
 
 </manifest>

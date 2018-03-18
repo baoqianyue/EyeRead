@@ -56,10 +56,12 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val itemViewType = getItemViewType(position)
         when (itemViewType) {
-            TYPE_SIMPLE -> {
-                (holder?.itemView as CategoryItemView).setData(data[position])
+            TYPE_SIMPLE -> (holder?.itemView as CategoryItemView).let {
+                it.setData(data[position])
+                it.setOnClickListener { onClick?.invoke(data[position]) }
+                /*(holder?.itemView as CategoryItemView).setData(data[position])
                 //设置点击事件
-                holder?.itemView.setOnClickListener { onClick?.invoke(data[position]) }
+                holder?.itemView.setOnClickListener { onClick?.invoke(data[position]) }*/
             }
         }
     }

@@ -20,15 +20,13 @@ import com.barackbao.eyeread.ui.customviews.PullRefreshRecyclerView
 import com.barackbao.eyeread.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.text.SimpleDateFormat
-import java.util.*
+
 import kotlin.collections.ArrayList
 
 /**
  * Created by BarackBao on 2018/2/4.
  */
 class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.CHomeView {
-
 
     //持有persenter
     var persenter: HomePresenter
